@@ -19,10 +19,7 @@ export default function Home() {
 
   const seaworthyServices = [
     "Design and Engineering",
-    "Hull Construction",
-    "Outfitting",
     "Painting and Coating",
-    "Testing and Sea Trials",
     "Dry Docking",
     "Hull Repairs",
     "Engine and Machinery Repairs",
@@ -30,9 +27,7 @@ export default function Home() {
     "Plumbing and HVAC Repairs",
     "Propeller and Rudder Repairs",
     "Painting and Coating Maintenance",
-    "Structural Modifications",
-    "Inspection and Surveying",
-    "Emergency Repairs"
+    "Structural Modifications"
   ];
 
   const appointmentOptions = [
