@@ -15,19 +15,32 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [interest, setInterest] = useState<string>("");
   const [appointmentTime, setAppointmentTime] = useState<string>("");
+  const [quoteServices, setQuoteServices] = useState<string[]>([]);
+
+  const seaworthyServices = [
+    "Design and Engineering",
+    "Hull Construction",
+    "Outfitting",
+    "Painting and Coating",
+    "Testing and Sea Trials",
+    "Dry Docking",
+    "Hull Repairs",
+    "Engine and Machinery Repairs",
+    "Electrical System Repairs",
+    "Plumbing and HVAC Repairs",
+    "Propeller and Rudder Repairs",
+    "Painting and Coating Maintenance",
+    "Structural Modifications",
+    "Inspection and Surveying",
+    "Emergency Repairs"
+  ];
 
   const appointmentOptions = [
     "Monday, May 5th - 10:00 AM",
     "Monday, May 5th - 2:00 PM",
-    "Monday, May 5th - 4:00 PM",
-    "Tuesday, May 6th - 10:00 AM",
-    "Tuesday, May 6th - 2:00 PM",
     "Tuesday, May 6th - 4:00 PM",
-    "Wednesday, May 7th - 10:00 AM",
     "Wednesday, May 7th - 2:00 PM",
-    "Wednesday, May 7th - 4:00 PM",
     "Thursday, May 8th - 10:00 AM",
-    "Thursday, May 8th - 2:00 PM",
     "Thursday, May 8th - 4:00 PM"
   ];
 
@@ -41,7 +54,8 @@ export default function Home() {
       email: (form.elements.namedItem("email") as HTMLInputElement)?.value,
       phone: (form.elements.namedItem("phone") as HTMLInputElement)?.value,
       interest,
-      appointmentTime: interest === "Schedule Consultation" ? appointmentTime : ""
+      appointmentTime: interest === "Schedule Consultation" ? appointmentTime : "",
+      quoteServices: interest === "Request Quote" ? quoteServices : []
     };
     try {
       await fetch("/api/contacts", {
@@ -113,7 +127,7 @@ export default function Home() {
               </label>
             ))}
           </div>
-          {interest === "Schedule Consultation" && (
+           {interest === "Schedule Consultation" && (
             <div className="mt-4">
               <div className="font-semibold mb-2 text-blue-900">Select an appointment time:</div>
               <div className="flex flex-col gap-2">
@@ -135,6 +149,30 @@ export default function Home() {
                     </button>
                   );
                 })}
+              </div>
+            </div>
+          )}
+
+          {interest === "Request Quote" && (
+            <div className="mt-4">
+              <div className="font-semibold mb-2 text-blue-900">Select services for your quote:</div>
+              <div className="flex flex-col gap-2">
+                {seaworthyServices.map((service) => (
+                  <label key={service} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={quoteServices.includes(service)}
+                      onChange={e => {
+                        if (e.target.checked) {
+                          setQuoteServices([...quoteServices, service]);
+                        } else {
+                          setQuoteServices(quoteServices.filter(s => s !== service));
+                        }
+                      }}
+                    />
+                    <span>{service}</span>
+                  </label>
+                ))}
               </div>
             </div>
           )}
