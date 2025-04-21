@@ -1,0 +1,26 @@
+# Node modules
+node_modules/
+
+# Local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js build output
+.next/
+out/
+
+# VSCode settings
+.vscode/
+
+# OS files
+.DS_Store
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Data (do not track captured contacts in git)
+data/contacts.json

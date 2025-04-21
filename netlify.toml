@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+  functions = "netlify/functions"
+
+[build.environment]
+  NEXT_PUBLIC_BASE_PATH = "/"
+  NODE_VERSION = "18"
+  GO_VERSION = "1.19"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[dev]
+  command = "npm run dev"
