@@ -19,11 +19,10 @@ export default function Home() {
   const [serviceRequests, setServiceRequests] = useState<string[]>([]);
 
   const basicServices = [
-    { label: "Basic Wash", cost: "$5/ft" },
-    { label: "Interior Cleaning", cost: "$200" },
-    { label: "Engine Check", cost: "$150" },
-    { label: "Wax & Polish", cost: "$10/ft" },
-    { label: "Bottom Cleaning", cost: "$8/ft" }
+    { label: "Interior Cleaning", cost: "$600" },
+    { label: "Engine Check", cost: "$450" },
+    { label: "Wax & Polish", cost: "$30/ft" },
+    { label: "Bottom Cleaning", cost: "$24/ft" }
   ];
 
   const seaworthyServices = [
