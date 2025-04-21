@@ -111,99 +111,122 @@ export default function Home() {
               { value: "Request Quote", label: "Request Quote", icon: "💸" },
               { value: "Schedule Consultation", label: "Schedule Consultation", icon: "⛵" }
             ].map(option => (
-              <label
-                key={option.value}
-                className="w-full cursor-pointer group"
-              >
-                <input
-                  type="radio"
-                  name="interest"
-                  value={option.value}
-                  className="peer sr-only"
-                  checked={interest === option.value}
-                  onChange={() => setInterest(option.value)}
-                  required
-                />
-                <div className="w-full flex flex-row items-center justify-center border-2 border-blue-300 bg-white/80 rounded-xl shadow-md px-4 py-6 transition-all duration-200 group-hover:bg-blue-50 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-700 group-hover:shadow-lg">
-                  <span className="text-3xl mr-4">{option.icon}</span>
-                  <span className="font-semibold text-lg text-center">{option.label}</span>
-                </div>
-              </label>
+              <div key={option.value} className="relative">
+                <label
+                  className="w-full cursor-pointer group"
+                >
+                  <input
+                    type="radio"
+                    name="interest"
+                    value={option.value}
+                    className="peer sr-only"
+                    checked={interest === option.value}
+                    onChange={() => setInterest(option.value)}
+                    required
+                  />
+                  <div className="w-full flex flex-row items-center justify-center border-2 border-blue-300 bg-white/80 rounded-xl shadow-md px-4 py-6 transition-all duration-200 group-hover:bg-blue-50 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-700 group-hover:shadow-lg">
+                    <span className="text-3xl mr-4">{option.icon}</span>
+                    <span className="font-semibold text-lg text-center">{option.label}</span>
+                  </div>
+                </label>
+                {/* Animated service/appointment/quote sections */}
+                {option.value === "Request Service" && interest === "Request Service" && (
+                  <div className="overflow-hidden transition-all duration-500 ease-in-out max-h-96 opacity-100 translate-y-0 mt-2"
+                    style={{
+                      maxHeight: interest === "Request Service" ? '24rem' : '0',
+                      opacity: interest === "Request Service" ? 1 : 0,
+                      transform: interest === "Request Service" ? 'translateY(0)' : 'translateY(-10px)'
+                    }}
+                  >
+                    <div className="font-semibold mb-2 text-blue-900">Select services to request:</div>
+                    <div className="flex flex-col gap-2">
+                      {basicServices.map((service) => (
+                        <label key={service.label} className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={serviceRequests.includes(service.label)}
+                            onChange={e => {
+                              if (e.target.checked) {
+                                setServiceRequests([...serviceRequests, service.label]);
+                              } else {
+                                setServiceRequests(serviceRequests.filter(s => s !== service.label));
+                              }
+                            }}
+                          />
+                          <span>{service.label} <span className="text-gray-500">({service.cost})</span></span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {option.value === "Schedule Consultation" && interest === "Schedule Consultation" && (
+                  <div className="overflow-hidden transition-all duration-500 ease-in-out max-h-96 opacity-100 translate-y-0 mt-2"
+                    style={{
+                      maxHeight: interest === "Schedule Consultation" ? '24rem' : '0',
+                      opacity: interest === "Schedule Consultation" ? 1 : 0,
+                      transform: interest === "Schedule Consultation" ? 'translateY(0)' : 'translateY(-10px)'
+                    }}
+                  >
+                    <div className="font-semibold mb-2 text-blue-900">Select an appointment time:</div>
+                    <div className="flex flex-col gap-2">
+                      {appointmentOptions.map((time) => {
+                        const unavailableSlots = [
+                          "Wednesday, May 7th - 10:00 AM"
+                        ];
+                        const unavailable = unavailableSlots.includes(time);
+                        return (
+                          <button
+                            type="button"
+                            key={time}
+                            className={`w-full px-4 py-3 rounded-lg border-2 text-left font-medium transition-all duration-150 mb-1
+                              ${unavailable ? "line-through bg-gray-200 text-gray-500 border-gray-300 cursor-not-allowed" : appointmentTime === time ? "bg-blue-600 text-white border-blue-700" : "bg-white/80 border-blue-300 hover:bg-blue-100"}`}
+                            onClick={() => !unavailable && setAppointmentTime(time)}
+                            disabled={unavailable}
+                          >
+                            {time}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+                {option.value === "Request Quote" && interest === "Request Quote" && (
+                  <div className="overflow-hidden transition-all duration-500 ease-in-out max-h-96 opacity-100 translate-y-0 mt-2"
+                    style={{
+                      maxHeight: interest === "Request Quote" ? '24rem' : '0',
+                      opacity: interest === "Request Quote" ? 1 : 0,
+                      transform: interest === "Request Quote" ? 'translateY(0)' : 'translateY(-10px)'
+                    }}
+                  >
+                    <div className="font-semibold mb-2 text-blue-900">Select services for your quote:</div>
+                    <div className="flex flex-col gap-2">
+                      {seaworthyServices.map((service) => (
+                        <label key={service} className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={quoteServices.includes(service)}
+                            onChange={e => {
+                              if (e.target.checked) {
+                                setQuoteServices([...quoteServices, service]);
+                              } else {
+                                setQuoteServices(quoteServices.filter(s => s !== service));
+                              }
+                            }}
+                          />
+                          <span>{service}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
-           {interest === "Request Service" && (
-            <div className="mt-4">
-              <div className="font-semibold mb-2 text-blue-900">Select services to request:</div>
-              <div className="flex flex-col gap-2">
-                {basicServices.map((service) => (
-                  <label key={service.label} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={serviceRequests.includes(service.label)}
-                      onChange={e => {
-                        if (e.target.checked) {
-                          setServiceRequests([...serviceRequests, service.label]);
-                        } else {
-                          setServiceRequests(serviceRequests.filter(s => s !== service.label));
-                        }
-                      }}
-                    />
-                    <span>{service.label} <span className="text-gray-500">({service.cost})</span></span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
 
-          {interest === "Schedule Consultation" && (
-            <div className="mt-4">
-              <div className="font-semibold mb-2 text-blue-900">Select an appointment time:</div>
-              <div className="flex flex-col gap-2">
-                {appointmentOptions.map((time) => {
-                  const unavailableSlots = [
-                    "Wednesday, May 7th - 10:00 AM"
-                  ];
-                  const unavailable = unavailableSlots.includes(time);
-                  return (
-                    <button
-                      type="button"
-                      key={time}
-                      className={`w-full px-4 py-3 rounded-lg border-2 text-left font-medium transition-all duration-150 mb-1
-                        ${unavailable ? "line-through bg-gray-200 text-gray-500 border-gray-300 cursor-not-allowed" : appointmentTime === time ? "bg-blue-600 text-white border-blue-700" : "bg-white/80 border-blue-300 hover:bg-blue-100"}`}
-                      onClick={() => !unavailable && setAppointmentTime(time)}
-                      disabled={unavailable}
-                    >
-                      {time}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
 
-          {interest === "Request Quote" && (
-            <div className="mt-4">
-              <div className="font-semibold mb-2 text-blue-900">Select services for your quote:</div>
-              <div className="flex flex-col gap-2">
-                {seaworthyServices.map((service) => (
-                  <label key={service} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={quoteServices.includes(service)}
-                      onChange={e => {
-                        if (e.target.checked) {
-                          setQuoteServices([...quoteServices, service]);
-                        } else {
-                          setQuoteServices(quoteServices.filter(s => s !== service));
-                        }
-                      }}
-                    />
-                    <span>{service}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
+
+
+
         </div>
         <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded font-bold mt-4 hover:bg-blue-700" disabled={loading}>
           {loading ? "Submitting..." : "Submit"}
