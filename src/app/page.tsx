@@ -16,6 +16,15 @@ export default function Home() {
   const [interest, setInterest] = useState<string>("");
   const [appointmentTime, setAppointmentTime] = useState<string>("");
   const [quoteServices, setQuoteServices] = useState<string[]>([]);
+  const [serviceRequests, setServiceRequests] = useState<string[]>([]);
+
+  const basicServices = [
+    { label: "Basic Wash", cost: "$5/ft" },
+    { label: "Interior Cleaning", cost: "$200" },
+    { label: "Engine Check", cost: "$150" },
+    { label: "Wax & Polish", cost: "$10/ft" },
+    { label: "Bottom Cleaning", cost: "$8/ft" }
+  ];
 
   const seaworthyServices = [
     "Design and Engineering",
@@ -50,8 +59,9 @@ export default function Home() {
       phone: (form.elements.namedItem("phone") as HTMLInputElement)?.value,
       interest,
       appointmentTime: interest === "Schedule Consultation" ? appointmentTime : "",
-      quoteServices: interest === "Request Quote" ? quoteServices : []
-    };
+      quoteServices: interest === "Request Quote" ? quoteServices : [],
+      serviceRequests: interest === "Request Service" ? serviceRequests : []
+    ;
     try {
       await fetch("/api/contacts", {
         method: "POST",
@@ -122,7 +132,31 @@ export default function Home() {
               </label>
             ))}
           </div>
-           {interest === "Schedule Consultation" && (
+           {interest === "Request Service" && (
+            <div className="mt-4">
+              <div className="font-semibold mb-2 text-blue-900">Select services to request:</div>
+              <div className="flex flex-col gap-2">
+                {basicServices.map((service) => (
+                  <label key={service.label} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={serviceRequests.includes(service.label)}
+                      onChange={e => {
+                        if (e.target.checked) {
+                          setServiceRequests([...serviceRequests, service.label]);
+                        } else {
+                          setServiceRequests(serviceRequests.filter(s => s !== service.label));
+                        }
+                      }}
+                    />
+                    <span>{service.label} <span className="text-gray-500">({service.cost})</span></span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {interest === "Schedule Consultation" && (
             <div className="mt-4">
               <div className="font-semibold mb-2 text-blue-900">Select an appointment time:</div>
               <div className="flex flex-col gap-2">
