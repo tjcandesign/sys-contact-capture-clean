@@ -60,7 +60,7 @@ export default function Home() {
       appointmentTime: interest === "Schedule Consultation" ? appointmentTime : "",
       quoteServices: interest === "Request Quote" ? quoteServices : [],
       serviceRequests: interest === "Request Service" ? serviceRequests : []
-    ;
+    }
     try {
       await fetch("/api/contacts", {
         method: "POST",
